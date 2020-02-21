@@ -1,0 +1,93 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven'
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+
+    /*** Material Design***/
+    implementation 'com.google.android.material:material:1.1.0'
+
+    deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
+}
+
+uploadArchives {
+    dependsOn 'androidJavadocsJar'
+    dependsOn 'androidSourcesJar'
+    println("Uploaded to Maven Repo")
+    repositories {
+        mavenDeployer {
+            configuration = configurations.deployerJars
+            repository(url: "ftp://10.10.40.61") {
+                authentication(userName: "zeusftp" , password: "s2next")
+            }
+            pom.version = android.defaultConfig.versionName
+            pom.groupId = 'com.zeus.libraries'
+            pom.artifactId = 'text-validator'
+            // or repository(url: mavenLocal().getUrl())
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+}
+
+task androidJavadocsJar(type: Jar) {
+    classifier = 'javadoc'
+    baseName = 'text-validator'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    baseName = 'text-validator'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+

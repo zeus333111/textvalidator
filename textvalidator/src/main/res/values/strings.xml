@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="validator_curp">CURP no Válido</string>
+    <string name="validator_rfc">RFC no Válido</string>
+    <string name="validator_characters">Válido sólo caracteres</string>
+    <string name="validator_name">Válido sólo caracteres</string>
+    <string name="validator_empty_field">No deje vacíos</string>
+    <string name="validator_text">Usar sólo letras y números</string>
+    <string name="validator_email">Correo electronico no válido</string>
+    <string name="validator_spinner">Seleccione una opcion</string>
+    <string name="validator_numeric">Válido sólo números</string>
+    <string name="validator_passwrod">Debe contener al menos 6 caracteres</string>
+    <string name="validator_confirm_password">La contraseña debe ser igual</string>
+    <plurals name="validator_numeric_plural">
+        <item quantity="one">Número de %d digito</item>
+        <item quantity="other">Número de %d digitos</item>
+    </plurals>
+    <plurals name="validator_errors">
+        <item quantity="one">Se encontró un error</item>
+        <item quantity="other">Se encontraron %d errores</item>
+    </plurals>
+
+</resources>

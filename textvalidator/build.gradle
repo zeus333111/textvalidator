@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'maven'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.zeus333111'
 android {
@@ -34,10 +33,6 @@ android {
     }
 }
 
-/*configurations {
-    deployerJars
-}*/
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -47,28 +42,8 @@ dependencies {
     /*** Material Design***/
     implementation 'com.google.android.material:material:1.1.0'
 
-    //deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
 }
 
-/*uploadArchives {
-    dependsOn 'androidJavadocsJar'
-    dependsOn 'androidSourcesJar'
-    println("Uploaded to Maven Repo")
-    repositories {
-        mavenDeployer {
-            configuration = configurations.deployerJars
-            repository(url: "ftp://10.10.40.61") {
-                authentication(userName: "zeusftp" , password: "s2next")
-            }
-            pom.version = android.defaultConfig.versionName
-            pom.groupId = 'com.zeus.libraries'
-            pom.artifactId = 'text-validator'
-            // or repository(url: mavenLocal().getUrl())
-        }
-    }
-}*/
-
-/*
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
@@ -93,5 +68,4 @@ artifacts {
     archives androidSourcesJar
     archives androidJavadocsJar
 }
-*/
 

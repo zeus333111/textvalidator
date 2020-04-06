@@ -1,10 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven'
+//apply plugin: 'maven'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.zeus333111'
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
 
     defaultConfig {
@@ -32,23 +34,23 @@ android {
     }
 }
 
-configurations {
+/*configurations {
     deployerJars
-}
+}*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
     /*** Material Design***/
     implementation 'com.google.android.material:material:1.1.0'
 
-    deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
+    //deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
 }
 
-uploadArchives {
+/*uploadArchives {
     dependsOn 'androidJavadocsJar'
     dependsOn 'androidSourcesJar'
     println("Uploaded to Maven Repo")
@@ -64,8 +66,9 @@ uploadArchives {
             // or repository(url: mavenLocal().getUrl())
         }
     }
-}
+}*/
 
+/*
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
@@ -90,4 +93,5 @@ artifacts {
     archives androidSourcesJar
     archives androidJavadocsJar
 }
+*/
 

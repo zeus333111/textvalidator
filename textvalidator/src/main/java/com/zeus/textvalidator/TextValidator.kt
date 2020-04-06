@@ -112,7 +112,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
                     til.error = if (size == null) {
                         context.getString(R.string.validator_numeric)
                     } else {
-                        context.resources.getQuantityString(R.plurals.validator_numeric_plural,size, size)
+                        context.resources.getQuantityString(R.plurals.validator_numeric_plural, size, size)
                     }
                 } else {
                     til.error = null
@@ -136,7 +136,7 @@ fun TextInputEditText.addConfirmPasswordValidator(tietPassword: TextInputEditTex
     validator.addTiet(this, true)
     val til = parent.parent as TextInputLayout
     addTextChangedListener { textConfirm ->
-        tietPassword.text?.let {textPass ->
+        tietPassword.text?.let { textPass ->
             if (textPass.toString() != textConfirm.toString()) {
                 til.error = context.getString(R.string.validator_confirm_password)
                 til.errorIconDrawable = null
@@ -149,7 +149,7 @@ fun TextInputEditText.addConfirmPasswordValidator(tietPassword: TextInputEditTex
 }
 
 fun Spinner.addValidator(validator: TextValidator, required: Boolean = true) {
-    if (required){
+    if (required) {
         validator.addSpinner(this)
     }
 }
@@ -158,7 +158,7 @@ fun Spinner.setError() {
     (selectedView as TextView).error = context.getString(R.string.validator_spinner)
 }
 
-fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onValid: ()->Unit) {
+fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onValid: () -> Unit) {
     setOnClickListener {
         textValidator.validateFields(context) {
             onValid.invoke()
@@ -166,7 +166,7 @@ fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onVa
     }
 }
 
-class TextValidator(private val editable: Boolean = true) {
+class TextValidator(val editable: Boolean = true) {
     private val tietCount = mutableMapOf<TextInputEditText, Boolean>()
     private val spinnerCount = ArrayList<Spinner>()
 
@@ -182,7 +182,7 @@ class TextValidator(private val editable: Boolean = true) {
         spinnerCount.add(spinner)
     }
 
-    fun validateFields(context: Context, onSuccess: ()->Unit) {
+    fun validateFields(context: Context, onSuccess: () -> Unit) {
         var errors = 0
         tietCount.forEach {
             val (tiet, required) = it

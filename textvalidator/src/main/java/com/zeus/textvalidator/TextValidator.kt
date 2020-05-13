@@ -133,7 +133,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
 }
 
 fun TextInputEditText.addConfirmPasswordValidator(tietPassword: TextInputEditText, validator: TextValidator) {
-    validator.addTiet(this, true)
+    validator.addTiet(this, true, true)
     val til = parent.parent as TextInputLayout
     addTextChangedListener { textConfirm ->
         tietPassword.text?.let { textPass ->
@@ -168,13 +168,18 @@ fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onVa
 
 class TextValidator(val editable: Boolean = true) {
     private val tietCount = mutableMapOf<TextInputEditText, Boolean>()
+    private var tietConfirmPassword: TextInputEditText? = null
     private val spinnerCount = ArrayList<Spinner>()
 
-    fun addTiet(tiet: TextInputEditText, required: Boolean) {
+    fun addTiet(tiet: TextInputEditText, required: Boolean, password: Boolean = false) {
         if (tiet.isEnabled) {
             tiet.isEnabled = editable
         }
-        tietCount.put(tiet, required)
+        if (password) {
+            tietConfirmPassword = tiet
+        } else {
+            tietCount.put(tiet, required)
+        }
     }
 
     fun addSpinner(spinner: Spinner) {
@@ -196,6 +201,13 @@ class TextValidator(val editable: Boolean = true) {
         spinnerCount.forEach {
             if (it.selectedItemPosition == 0) {
                 it.setError()
+                errors++
+            }
+        }
+        tietConfirmPassword?.let {
+            if (tietConfirmPassword?.error != null) {
+                tietConfirmPassword?.error = context.getString(R.string.validator_confirm_password)
+                tietConfirmPassword?.requestFocus()
                 errors++
             }
         }

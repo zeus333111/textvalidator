@@ -30,7 +30,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
     val regexEmail = Regex("^[\\w.]+@(\\w+\\.\\w+){1,2}\$")
     val regexNumber = Regex("""^[0-9]${if (size == null) "+" else "{$size}"}.?[0-9]*${'$'}""")
     val regexDate = Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}\$")
-    val regexPassword = Regex("^[\\w\\D]{6,}\$")
+    val regexPassword = Regex("^[\\S]{6,}\$") //updated from "^[\\w\\D]{6,}\$" to \\S (accept any non whitespace character)
 
     addTextChangedListener { text ->
         val til = parent.parent as TextInputLayout

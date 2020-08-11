@@ -26,8 +26,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
     val regexName = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+\$")
     val regexMiddlename = Regex("^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+\\s?)+\$")
     val regexLastName = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+\$")
-    //val regexText = Regex("^([\\S]+\\s?)+\$")
-    val regexText = Regex("\\s{2}")
+    val regexText = Regex("^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$")
     val regexEmail = Regex("^[\\w.]+@(\\w+\\.\\w+){1,2}\$")
     val regexNumber = Regex("""^[0-9]${if (size == null) "+" else "{$size}"}.?[0-9]*${'$'}""")
     val regexDate = Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}\$")
@@ -85,7 +84,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
                 }
             }
             TEXT -> {
-                if (regexText.matches(text.toString())) {
+                if (!regexText.matches(text.toString())) {
                     til.error = context.getString(R.string.validator_text)
                 } else {
                     til.error = null

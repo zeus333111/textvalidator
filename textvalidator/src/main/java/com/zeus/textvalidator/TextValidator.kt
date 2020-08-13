@@ -205,7 +205,7 @@ class TextValidator(val editable: Boolean = true) {
             }
         }
         tietConfirmPassword?.let {
-            if (tietConfirmPassword?.error != null) {
+            if (tietConfirmPassword?.error != null || tietConfirmPassword?.text.isNullOrBlank()) {
                 tietConfirmPassword?.error = context.getString(R.string.validator_confirm_password)
                 tietConfirmPassword?.requestFocus()
                 errors++

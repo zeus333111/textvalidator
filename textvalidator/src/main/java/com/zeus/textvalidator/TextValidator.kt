@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.zeus.textvalidator.TextValidator.Companion.CURP
 import com.zeus.textvalidator.TextValidator.Companion.DATE
 import com.zeus.textvalidator.TextValidator.Companion.EMAIL
+import com.zeus.textvalidator.TextValidator.Companion.FREE_TEXT
 import com.zeus.textvalidator.TextValidator.Companion.LAST_NAME
 import com.zeus.textvalidator.TextValidator.Companion.MIDDLE_NAME
 import com.zeus.textvalidator.TextValidator.Companion.NAME
@@ -128,6 +129,7 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
                     til.isErrorEnabled = false
                 }
             }
+            FREE_TEXT -> { /*nothing to do*/ }
         }
     }
 }
@@ -234,5 +236,6 @@ class TextValidator(val editable: Boolean = true) {
         const val LAST_NAME = 8
         const val NUMERIC = 9
         const val PASSWORD = 10
+        const val FREE_TEXT = 11
     }
 }

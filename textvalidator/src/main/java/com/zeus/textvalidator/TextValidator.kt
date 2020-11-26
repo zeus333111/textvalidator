@@ -129,7 +129,10 @@ fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required
                     til.isErrorEnabled = false
                 }
             }
-            FREE_TEXT -> { /*nothing to do*/ }
+            FREE_TEXT -> {
+                til.error = null
+                til.isErrorEnabled = false
+            }
         }
     }
 }

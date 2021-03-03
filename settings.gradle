@@ -1,2 +1,3 @@
+include ':textvalidatortestapp'
 include ':textvalidator'
-rootProject.name='Libraries'
+rootProject.name='TextValidator'

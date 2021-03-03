@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">TextValidatorTestApp</string>
+    <string name="curp">CURP</string>
+    <string name="rfc">RFC</string>
+    <string name="name">Name</string>
+    <string name="middle_name">Middle name</string>
+    <string name="last_name">Last name</string>
+    <string name="any_text">Any text (no especial characters)</string>
+    <string name="email">Email</string>
+    <string name="date_dd_mm_yyyy">Date (dd-mm-yyyy)</string>
+    <string name="numeric_any_length">Numeric any length</string>
+    <string name="numeric_min_length_6">Numeric min length 6</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="any_text_with_especial_characters">Any text (with especial characters)</string>
+    <string name="bad_regex">Bad regex</string>
+    <string name="no_required_field">No required field</string>
+    <string name="custom_regex">Custom regex</string>
+    <string name="no_hello_world">No hello world</string>
+    <string name="validate">validate</string>
+    <string-array name="entries">
+        <item>Title</item>
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+        <item>Option 4</item>
+    </string-array>
+</resources>

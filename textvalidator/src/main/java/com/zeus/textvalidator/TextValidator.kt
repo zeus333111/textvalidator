@@ -8,191 +8,52 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.zeus.textvalidator.TextValidator.Companion.CURP
-import com.zeus.textvalidator.TextValidator.Companion.DATE
-import com.zeus.textvalidator.TextValidator.Companion.EMAIL
-import com.zeus.textvalidator.TextValidator.Companion.FREE_TEXT
-import com.zeus.textvalidator.TextValidator.Companion.LAST_NAME
-import com.zeus.textvalidator.TextValidator.Companion.MIDDLE_NAME
-import com.zeus.textvalidator.TextValidator.Companion.NAME
-import com.zeus.textvalidator.TextValidator.Companion.NUMERIC
-import com.zeus.textvalidator.TextValidator.Companion.PASSWORD
-import com.zeus.textvalidator.TextValidator.Companion.RFC
-import com.zeus.textvalidator.TextValidator.Companion.TEXT
-
-fun TextInputEditText.addValidator(type: Int, validator: TextValidator, required: Boolean = true, size: Int? = null) {
-    validator.addTiet(this, required)
-    val regexCurp = Regex("^[A-Z]{4}[0-9]{6}[A-Z]{6}[A-F0-9]{2}\$")
-    val regexRfc = Regex("^[A-Z]{4}[0-9]{6}([A-Z0-9]{3})?\$")
-    val regexName = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+\$")
-    val regexMiddlename = Regex("^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+\\s?)+\$")
-    val regexLastName = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+\$")
-    val regexText = Regex("^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$")
-    val regexEmail = Regex("^[\\w.]+@(\\w+\\.\\w+){1,2}\$")
-    val regexNumber = Regex("""^[0-9]${if (size == null) "+" else "{$size}"}.?[0-9]*${'$'}""")
-    val regexDate = Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}\$")
-    val regexPassword = Regex("^[\\S]{6,}\$") //updated from "^[\\w\\D]{6,}\$" to \\S (accept any non whitespace character)
-
-    addTextChangedListener { text ->
-        val til = parent.parent as TextInputLayout
-        if (text.toString().isBlank() && required) {
-            til.error = context.getString(R.string.validator_empty_field)
-            return@addTextChangedListener
-        } else if (text.toString().isBlank() && !required) {
-            til.isErrorEnabled = false
-            til.error = null
-            return@addTextChangedListener
-        }
-        when (type) {
-            CURP -> {
-                if (!regexCurp.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_curp)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            RFC -> {
-                if (!regexRfc.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_rfc)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            NAME -> {
-                if (!regexName.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_name)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            MIDDLE_NAME -> {
-                if (!regexMiddlename.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_characters)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            LAST_NAME -> {
-                if (!regexLastName.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_characters)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            TEXT -> {
-                if (!regexText.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_text)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            EMAIL -> {
-                if (!regexEmail.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_email)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            DATE -> {
-                if (!regexDate.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_empty_field)
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            NUMERIC -> {
-                if (!regexNumber.matches(text.toString())) {
-                    til.error = if (size == null) {
-                        context.getString(R.string.validator_numeric)
-                    } else {
-                        context.resources.getQuantityString(R.plurals.validator_numeric_plural, size, size)
-                    }
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            PASSWORD -> {
-                if (!regexPassword.matches(text.toString())) {
-                    til.error = context.getString(R.string.validator_passwrod)
-                    til.errorIconDrawable = null
-                } else {
-                    til.error = null
-                    til.isErrorEnabled = false
-                }
-            }
-            FREE_TEXT -> {
-                til.error = null
-                til.isErrorEnabled = false
-            }
-        }
-    }
-}
-
-fun TextInputEditText.addConfirmPasswordValidator(tietPassword: TextInputEditText, validator: TextValidator) {
-    validator.addTiet(this, true, true)
-    val til = parent.parent as TextInputLayout
-    addTextChangedListener { textConfirm ->
-        tietPassword.text?.let { textPass ->
-            if (textPass.toString() != textConfirm.toString()) {
-                til.error = context.getString(R.string.validator_confirm_password)
-                til.errorIconDrawable = null
-            } else {
-                til.error = null
-                til.isErrorEnabled = false
-            }
-        }
-    }
-}
-
-fun Spinner.addValidator(validator: TextValidator, required: Boolean = true) {
-    if (required) {
-        validator.addSpinner(this)
-    }
-}
-
-fun Spinner.setError() {
-    (selectedView as TextView).error = context.getString(R.string.validator_spinner)
-}
-
-fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onValid: () -> Unit) {
-    setOnClickListener {
-        textValidator.validateFields(context) {
-            onValid.invoke()
-        }
-    }
-}
 
 class TextValidator(val editable: Boolean = true) {
+
     private val tietCount = mutableMapOf<TextInputEditText, Boolean>()
     private var tietConfirmPassword: TextInputEditText? = null
     private val spinnerCount = ArrayList<Spinner>()
 
-    fun addTiet(tiet: TextInputEditText, required: Boolean, password: Boolean = false) {
+    private val validators: MutableMap<String, Pair<Regex, Int>> = mutableMapOf(
+        CURP to Pair(Regex("^[A-Z]{4}[0-9]{6}[A-Z]{6}[A-F0-9]{2}\$"), R.string.validator_curp),
+        RFC to Pair(Regex("^[A-Z]{4}[0-9]{6}([A-Z0-9]{3})?\$"), R.string.validator_rfc),
+        NAME to Pair(Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+\$"), R.string.validator_name),
+        TEXT to Pair(Regex("^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$"), R.string.validator_text),
+        EMAIL to Pair(Regex("^[\\w.]+@(\\w+\\.\\w+){1,2}\$"), R.string.validator_email),
+        MIDDLE_NAME to Pair(Regex("^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+\\s?)+\$"), R.string.validator_characters),
+        DATE to Pair(Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}\$"), R.string.validator_date),
+        LAST_NAME to Pair(Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+\$"), R.string.validator_characters),
+        PASSWORD to Pair(Regex("^[\\S]{6,}\$"), R.string.validator_passwrod),
+        FREE_TEXT to Pair(Regex("(.*), (.*)"), R.string.validator_empty),
+        ERROR to Pair(Regex("^\$"), R.string.validator_no_regex)
+    )
+
+    private fun getValidator(name: String): Pair<Regex, Int> {
+        return validators[name]?: validators[ERROR]!!
+    }
+
+    fun addValidator( name: String, regex: Regex, errorStringResId: Int) {
+        validators[name] = Pair(regex, errorStringResId)
+    }
+
+    private fun addTiet(tiet: TextInputEditText, required: Boolean, password: Boolean = false) {
         if (tiet.isEnabled) {
             tiet.isEnabled = editable
         }
         if (password) {
             tietConfirmPassword = tiet
         } else {
-            tietCount.put(tiet, required)
+            tietCount[tiet] = required
         }
     }
 
-    fun addSpinner(spinner: Spinner) {
+    private fun addSpinner(spinner: Spinner) {
         spinner.isEnabled = editable
         spinnerCount.add(spinner)
     }
 
-    fun validateFields(context: Context, onSuccess: () -> Unit) {
+    private fun validateFields(context: Context, onSuccess: () -> Unit) {
         var errors = 0
         tietCount.forEach {
             val (tiet, required) = it
@@ -205,7 +66,7 @@ class TextValidator(val editable: Boolean = true) {
         }
         spinnerCount.forEach {
             if (it.selectedItemPosition == 0) {
-                it.setError()
+                it.setError2()
                 errors++
             }
         }
@@ -229,16 +90,106 @@ class TextValidator(val editable: Boolean = true) {
     }
 
     companion object {
-        const val CURP = 1
-        const val RFC = 2
-        const val NAME = 3
-        const val TEXT = 4
-        const val EMAIL = 5
-        const val MIDDLE_NAME = 6
-        const val DATE = 7
-        const val LAST_NAME = 8
-        const val NUMERIC = 9
-        const val PASSWORD = 10
-        const val FREE_TEXT = 11
+        const val CURP = "CURP"
+        const val RFC = "RFC"
+        const val NAME = "NAME"
+        const val TEXT = "TEXT"
+        const val EMAIL = "EMAIL"
+        const val MIDDLE_NAME = "MIDDLE_NAME"
+        const val DATE = "DATE"
+        const val LAST_NAME = "LAST_NAME"
+        const val NUMERIC = "NUMERIC"
+        const val PASSWORD = "PASSWORD"
+        const val FREE_TEXT = "FREE_TEXT"
+        const val ERROR = "ERROR"
+
+        fun makeNumericRegex(size: Int? = null): Pair<Regex, Int> {
+            val regex = Regex("""^[0-9]${if (size == null) "+" else "{$size}"}.?[0-9]*${'$'}""")
+            val error = if (size == null) {
+                R.string.validator_numeric
+            } else {
+                R.plurals.validator_numeric_plural
+            }
+            return Pair(regex, error)
+        }
+
+        fun TextInputEditText.addValidator(type: String, validator: TextValidator, required: Boolean = true, size: Int? = null) {
+            validator.addTiet(this, required)
+
+            addTextChangedListener { text ->
+                val til = parent.parent as TextInputLayout
+                if (text.toString().isBlank() && required) {
+                    til.error = context.getString(R.string.validator_empty_field)
+                    return@addTextChangedListener
+                } else if (text.toString().isBlank() && !required) {
+                    til.isErrorEnabled = false
+                    til.error = null
+                    return@addTextChangedListener
+                }
+
+                val (regex, resId) = if (type == NUMERIC) {
+                    makeNumericRegex(size)
+                } else {
+                    validator.getValidator(type)
+                }
+
+                when(type) {
+                    NUMERIC -> {
+                        if (!regex.matches(text.toString())) {
+                            til.error = if (size == null) {
+                                context.getString(resId)
+                            } else {
+                                context.resources.getQuantityString(resId, size, size)
+                            }
+                        } else {
+                            til.error = null
+                            til.isErrorEnabled = false
+                        }
+                    }
+                    else -> {
+                        if (!regex.matches(text.toString())) {
+                            til.error = context.getString(resId)
+                        } else {
+                            til.error = null
+                            til.isErrorEnabled = false
+                        }
+                    }
+                }
+            }
+        }
+
+        fun TextInputEditText.addConfirmPasswordValidator(tietPassword: TextInputEditText, validator: TextValidator) {
+            validator.addTiet(this, true, true)
+            val til = parent.parent as TextInputLayout
+            addTextChangedListener { textConfirm ->
+                tietPassword.text?.let { textPass ->
+                    if (textPass.toString() != textConfirm.toString()) {
+                        til.error = context.getString(R.string.validator_confirm_password)
+                        til.errorIconDrawable = null
+                    } else {
+                        til.error = null
+                        til.isErrorEnabled = false
+                    }
+                }
+            }
+        }
+
+        fun Spinner.addValidator(validator: TextValidator, required: Boolean = true) {
+            if (required) {
+                validator.addSpinner(this)
+            }
+        }
+
+        fun Spinner.setError2() {
+            (selectedView as TextView).error = context.getString(R.string.validator_spinner)
+        }
+
+        fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onValid: () -> Unit) {
+            setOnClickListener {
+                textValidator.validateFields(context) {
+                    onValid.invoke()
+                }
+            }
+        }
     }
 }

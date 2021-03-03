@@ -7,7 +7,7 @@
     <string name="last_name">Last name</string>
     <string name="any_text">Any text (no especial characters)</string>
     <string name="email">Email</string>
-    <string name="date_dd_mm_yyyy">Date (dd-mm-yyyy)</string>
+    <string name="date_dd_mm_yyyy">Date (yyyy-mm-dd)</string>
     <string name="numeric_any_length">Numeric any length</string>
     <string name="numeric_min_length_6">Numeric min length 6</string>
     <string name="password">Password</string>

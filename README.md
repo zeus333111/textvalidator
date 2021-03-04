@@ -19,7 +19,7 @@ allprojects {
 Add the dependency to the project build.gradle:
 ```Groovy
 dependencies {
-        implementation 'com.github.zeus333111:textvalidator:1.0.7'
+        implementation 'com.github.zeus333111:textvalidator:2.0'
 }
 ```
 

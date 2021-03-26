@@ -1,10 +1,10 @@
 package com.zeus.textvalidator
 
 import android.content.Context
+import android.view.View
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -184,7 +184,7 @@ class TextValidator(val editable: Boolean = true) {
             (selectedView as TextView).error = context.getString(R.string.validator_spinner)
         }
 
-        fun AppCompatButton.setValidatedClickListener(textValidator: TextValidator, onValid: () -> Unit) {
+        fun View.setValidatedClickListener(textValidator: TextValidator, onValid: () -> Unit) {
             setOnClickListener {
                 textValidator.validateFields(context) {
                     onValid.invoke()
